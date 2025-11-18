@@ -1,151 +1,222 @@
 """
-BACKTRACKING - Thuật toán Quay lui
-===================================
-Giải bài toán xếp lịch bằng thuật toán Backtracking (Quay lui)
+Thuật toán Backtracking để tìm lịch hợp lệ
 
-Cách hoạt động:
-1. Thử xếp từng trận đấu vào các ngày và sân có thể
-2. Kiểm tra ràng buộc (ngày nghỉ, số trận mỗi ngày, xung đột sân)
-3. Nếu vi phạm ràng buộc, quay lui (backtrack) và thử phương án khác
-4. Tìm giải pháp tối ưu (ít ngày nhất)
+Tìm kiếm tất cả các tổ hợp có thể để gán môn học vào lịch,
+đảm bảo thỏa mãn tất cả ràng buộc cứng.
 """
 
-import copy
-from typing import List, Tuple, Dict
-from models import Match
+import random
+from typing import Dict, List, Optional, Tuple
+from core.model import Schedule, Assignment, Course, Room, Teacher, Timeslot
+from core.constraints import ConstraintChecker
 
 
 class BacktrackingSolver:
     """
-    Giải bài toán xếp lịch bằng thuật toán Backtracking (Quay lui)
+    Lớp giải bài toán xếp lịch bằng Backtracking
+    
+    Thuật toán:
+    1. Sắp xếp môn học theo độ khó (môn có ít lựa chọn trước)
+    2. Duyệt từng môn, thử tất cả tổ hợp (giáo viên, phòng, timeslot)
+    3. Kiểm tra ràng buộc trước khi gán
+    4. Quay lui nếu không tìm được giải pháp
     """
-    
-    def __init__(self, data: Dict):
-        self.data = data
-        self.best_schedule = None
-        self.best_days = float('inf')
-        self.iterations = 0
-        self.max_iterations = 100000  # Giới hạn số lần thử để tránh quá lâu
-    
-    def is_valid_assignment(self, schedule: List[Match], match_idx: int, day: int, stadium: int) -> bool:
+
+    def __init__(self, courses: Dict[str, Course], rooms: Dict[str, Room],
+                 teachers: Dict[str, Teacher], timeslots: Dict[str, Timeslot]):
         """
-        Kiểm tra xem việc gán trận đấu match_idx vào ngày day và sân stadium có hợp lệ không
+        Khởi tạo solver
         
         Args:
-            schedule: Lịch hiện tại
-            match_idx: Chỉ số trận đấu cần kiểm tra
-            day: Ngày muốn xếp
-            stadium: Sân muốn xếp
+            courses: Dictionary các môn học
+            rooms: Dictionary các phòng học
+            teachers: Dictionary các giáo viên
+            timeslots: Dictionary các khung giờ
+        """
+        self.courses = courses
+        self.rooms = rooms
+        self.teachers = teachers
+        self.timeslots = timeslots
+        self.constraint_checker = ConstraintChecker(courses, rooms, teachers, timeslots)
+        
+        # Tạo mapping từ tên môn đến danh sách giáo viên có thể dạy
+        self.course_to_teachers = self._build_course_teacher_mapping(teachers)
+
+    def _build_course_teacher_mapping(self, teachers: Dict[str, Teacher]) -> Dict[str, List[str]]:
+        """
+        Xây dựng mapping từ tên môn đến danh sách giáo viên có thể dạy
         
         Returns:
-            True nếu hợp lệ, False nếu không
+            Dictionary: {course_name: [teacher_id1, teacher_id2, ...]}
         """
-        match = schedule[match_idx]
-        num_teams = self.data['num_teams']
-        num_stadiums = self.data['num_stadiums']
-        max_matches_per_day = self.data['max_matches_per_day']
-        min_rest_days = self.data['min_rest_days']
-        
-        # Kiểm tra sân hợp lệ
-        if stadium < 0 or stadium >= num_stadiums:
-            return False
-        
-        # Kiểm tra số trận mỗi ngày
-        day_matches = [m for m in schedule[:match_idx] if m.day == day]
-        if len(day_matches) >= max_matches_per_day:
-            return False
-        
-        # Kiểm tra sân đã được sử dụng trong ngày đó chưa
-        for m in day_matches:
-            if m.stadium == stadium:
-                return False
-        
-        # Kiểm tra đội đã thi trong ngày đó chưa
-        for m in day_matches:
-            if m.team1 == match.team1 or m.team1 == match.team2 or \
-               m.team2 == match.team1 or m.team2 == match.team2:
-                return False
-        
-        # Kiểm tra ngày nghỉ cho đội 1
-        team1_matches = [m for m in schedule[:match_idx] 
-                         if (m.team1 == match.team1 or m.team2 == match.team1) and m.day >= 0]
-        if team1_matches:
-            last_match_day = max([m.day for m in team1_matches])
-            rest_days = day - last_match_day - 1
-            if rest_days < min_rest_days:
-                return False
-        
-        # Kiểm tra ngày nghỉ cho đội 2
-        team2_matches = [m for m in schedule[:match_idx] 
-                         if (m.team1 == match.team2 or m.team2 == match.team2) and m.day >= 0]
-        if team2_matches:
-            last_match_day = max([m.day for m in team2_matches])
-            rest_days = day - last_match_day - 1
-            if rest_days < min_rest_days:
-                return False
-        
-        return True
-    
-    def backtrack(self, schedule: List[Match], match_idx: int, current_max_day: int):
-        """
-        Hàm đệ quy quay lui để tìm lịch tối ưu
-        
-        Args:
-            schedule: Lịch hiện tại
-            match_idx: Chỉ số trận đấu đang xét
-            current_max_day: Ngày lớn nhất đã sử dụng
-        """
-        self.iterations += 1
-        
-        # Giới hạn số lần thử
-        if self.iterations > self.max_iterations:
-            return
-        
-        # Nếu đã xếp hết tất cả trận đấu
-        if match_idx == len(schedule):
-            # Kiểm tra xem có tốt hơn giải pháp hiện tại không
-            if current_max_day + 1 < self.best_days:
-                self.best_days = current_max_day + 1
-                self.best_schedule = copy.deepcopy(schedule)
-            return
-        
-        # Thử xếp trận đấu vào các ngày và sân
-        # Giới hạn số ngày thử để tránh quá lâu
-        max_day_to_try = min(current_max_day + 5, self.best_days - 1)
-        
-        for day in range(max_day_to_try + 1):
-            for stadium in range(self.data['num_stadiums']):
-                if self.is_valid_assignment(schedule, match_idx, day, stadium):
-                    # Gán trận đấu
-                    schedule[match_idx].day = day
-                    schedule[match_idx].stadium = stadium
-                    
-                    # Tiếp tục với trận đấu tiếp theo
-                    new_max_day = max(current_max_day, day)
-                    self.backtrack(schedule, match_idx + 1, new_max_day)
-                    
-                    # Quay lui: bỏ gán
-                    schedule[match_idx].day = -1
-                    schedule[match_idx].stadium = -1
-    
-    def solve(self) -> Tuple[List[Match], float, int]:
+        mapping = {}
+        for teacher_id, teacher in teachers.items():
+            for course_name in teacher.courses:
+                if course_name not in mapping:
+                    mapping[course_name] = []
+                mapping[course_name].append(teacher_id)
+        return mapping
+
+    def solve(self, max_iterations: int = 10000, verbose: bool = False) -> Optional[Schedule]:
         """
         Giải bài toán bằng Backtracking
         
+        Args:
+            max_iterations: Số lần thử tối đa (không dùng trong backtracking nhưng giữ để tương thích)
+            verbose: In thông tin debug
+            
         Returns:
-            Tuple (lịch tốt nhất, số ngày, số lần lặp)
+            Schedule hợp lệ nếu tìm được, None nếu không
         """
-        schedule = copy.deepcopy(self.data['matches'])
-        self.iterations = 0
-        self.best_days = float('inf')
-        self.best_schedule = None
+        schedule = Schedule()
+        course_ids = list(self.courses.keys())
         
-        # Bắt đầu quay lui
-        self.backtrack(schedule, 0, -1)
+        # Sắp xếp môn học theo độ khó (môn có ít lựa chọn hơn trước)
+        # Điều này giúp phát hiện xung đột sớm hơn
+        course_ids.sort(key=lambda cid: self._calculate_course_difficulty(cid))
         
-        if self.best_schedule is None:
-            # Nếu không tìm được giải pháp, trả về lịch rỗng
-            return schedule, float('inf'), self.iterations
+        if verbose:
+            print(f"  Đang tìm lịch cho {len(course_ids)} môn học...")
+            print(f"  Thứ tự xử lý: {[self.courses[cid].name for cid in course_ids[:5]]}...")
         
-        return self.best_schedule, self.best_days, self.iterations
+        if self._backtrack(schedule, course_ids, 0, verbose):
+            return schedule
+        return None
 
+    def _backtrack(self, schedule: Schedule, course_ids: List[str], 
+                   index: int, verbose: bool = False) -> bool:
+        """
+        Hàm đệ quy Backtracking
+        
+        Args:
+            schedule: Lịch hiện tại
+            course_ids: Danh sách ID môn học cần gán
+            index: Chỉ số môn học hiện tại đang xử lý
+            verbose: In thông tin debug
+            
+        Returns:
+            True nếu tìm được lịch hợp lệ, False nếu không
+        """
+        # Điều kiện dừng: đã gán hết tất cả môn
+        if index >= len(course_ids):
+            return True
+        
+        course_id = course_ids[index]
+        course = self.courses[course_id]
+        
+        # Lấy các lựa chọn có thể cho môn này
+        available_options = self._get_available_options(course)
+        if not available_options:
+            if verbose:
+                print(f"  Không có lựa chọn cho môn: {course.name} - {course.student_class}")
+            return False
+        
+        # Sắp xếp ngẫu nhiên để tăng tính đa dạng
+        random.shuffle(available_options)
+        
+        # Thử từng lựa chọn
+        for teacher_id, room_id, timeslot_id in available_options:
+            new_assignment = Assignment(
+                course_id=course_id,
+                room_id=room_id,
+                teacher_id=teacher_id,
+                timeslot_id=timeslot_id
+            )
+            
+            # Kiểm tra ràng buộc
+            if self.constraint_checker.check_all_constraints(schedule, new_assignment):
+                # Gán môn này
+                schedule.add_assignment(new_assignment)
+                
+                # Đệ quy cho môn tiếp theo
+                if self._backtrack(schedule, course_ids, index + 1, verbose):
+                    return True
+                
+                # Quay lui: xóa assignment vừa thêm
+                schedule.assignments.pop()
+        
+        return False
+
+    def _get_available_options(self, course: Course) -> List[Tuple[str, str, str]]:
+        """
+        Lấy tất cả các tổ hợp (giáo viên, phòng, timeslot) có thể cho môn học
+        
+        Args:
+            course: Môn học cần tìm lựa chọn
+            
+        Returns:
+            List các tuple (teacher_id, room_id, timeslot_id)
+        """
+        available_teachers = self.course_to_teachers.get(course.name, [])
+        available_rooms = self._get_available_rooms(course)
+        available_timeslots = list(self.timeslots.keys())
+        
+        # Tạo tất cả tổ hợp có thể
+        options = []
+        for teacher_id in available_teachers:
+            for room_id in available_rooms:
+                for timeslot_id in available_timeslots:
+                    options.append((teacher_id, room_id, timeslot_id))
+        
+        return options
+
+    def _get_available_rooms(self, course: Course) -> List[str]:
+        """
+        Lấy danh sách phòng phù hợp với ràng buộc địa điểm của môn học
+        
+        Args:
+            course: Môn học cần kiểm tra
+            
+        Returns:
+            Danh sách ID phòng phù hợp
+        """
+        available_rooms = []
+        required_location = course.required_location
+        
+        for room_id, room in self.rooms.items():
+            # Kiểm tra ràng buộc địa điểm
+            if self._is_room_location_valid(room.location, required_location):
+                available_rooms.append(room_id)
+        
+        return available_rooms
+
+    def _is_room_location_valid(self, room_location: str, required_location: str) -> bool:
+        """
+        Kiểm tra xem vị trí phòng có phù hợp với yêu cầu của môn học không
+        
+        Args:
+            room_location: Vị trí phòng ("A", "B", hoặc "N")
+            required_location: Yêu cầu vị trí của môn ("A", "B", "N", hoặc "A|B")
+            
+        Returns:
+            True nếu phù hợp, False nếu không
+        """
+        if "|" in required_location:
+            # Môn có thể học ở nhiều cơ sở
+            allowed_locations = required_location.split("|")
+            return room_location in allowed_locations
+        else:
+            # Môn chỉ học ở một cơ sở
+            return room_location == required_location
+
+    def _calculate_course_difficulty(self, course_id: str) -> int:
+        """
+        Tính độ khó của môn học (số lựa chọn càng ít thì càng khó)
+        Môn khó hơn sẽ được gán trước để phát hiện xung đột sớm
+        
+        Args:
+            course_id: ID môn học
+            
+        Returns:
+            Điểm độ khó (số càng nhỏ càng khó)
+        """
+        course = self.courses[course_id]
+        num_teachers = len(self.course_to_teachers.get(course.name, []))
+        num_rooms = len(self._get_available_rooms(course))
+        num_timeslots = len(self.timeslots)
+        
+        # Tổng số lựa chọn
+        total_options = num_teachers * num_rooms * num_timeslots
+        
+        # Trả về số âm để sắp xếp giảm dần (môn khó trước)
+        return -total_options
