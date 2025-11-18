@@ -6,9 +6,9 @@ File chính để chạy chương trình xếp lịch thi đấu thể thao
 
 import time
 from data_generator import generate_data
-from backtracking import BacktrackingSolver
-from gwo import GWOSolver
-from evaluator import evaluate_schedule
+from core.backtracking import BacktrackingSolver
+from core.gwo import GWOSolver
+from core.evaluator import evaluate_schedule
 from comparison import compare_algorithms, print_results, print_schedule_details
 
 
