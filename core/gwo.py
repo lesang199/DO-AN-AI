@@ -323,19 +323,7 @@ class GWOSolver:
         return None
 
     def _repair_schedule(self, schedule: Schedule) -> Schedule:
-        """
-        Sửa lịch để đảm bảo tất cả môn đều được gán và hợp lệ
-        
-        Quy trình:
-        1. Giữ lại các assignment hợp lệ từ lịch cũ
-        2. Thêm các môn chưa được gán với assignment hợp lệ
-        
-        Args:
-            schedule: Lịch cần sửa
-            
-        Returns:
-            Lịch đã được sửa và hoàn chỉnh
-        """
+       
         repaired = Schedule()
         
         # Bước 1: Giữ lại các assignment hợp lệ từ lịch cũ
