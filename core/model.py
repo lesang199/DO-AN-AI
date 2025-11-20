@@ -1,6 +1,4 @@
-"""
-Mô hình dữ liệu cho bài toán xếp lịch môn học
-"""
+
 
 from dataclasses import dataclass
 from typing import List, Optional, Dict

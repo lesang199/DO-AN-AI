@@ -8,7 +8,7 @@ Tìm kiếm tất cả các tổ hợp có thể để gán môn học vào lị
 import random
 from typing import Dict, List, Optional, Tuple
 from core.model import Schedule, Assignment, Course, Room, Teacher, Timeslot
-from core.constraints import ConstraintChecker
+from core.constraint import ConstraintChecker
 
 
 class BacktrackingSolver:
