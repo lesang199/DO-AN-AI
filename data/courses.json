@@ -1,0 +1,116 @@
+[
+  {
+    "id": "C001",
+    "name": "Trí tuệ nhân tạo",
+    "student_class": "CNTT2021",
+    "required_location": "B"
+  },
+  {
+    "id": "C002",
+    "name": "Trí tuệ nhân tạo",
+    "student_class": "CNTT2022",
+    "required_location": "B"
+  },
+  {
+    "id": "C003",
+    "name": "Trí tuệ nhân tạo",
+    "student_class": "CNTT2023",
+    "required_location": "B"
+  },
+  {
+    "id": "C004",
+    "name": "Phát triển ứng dụng web",
+    "student_class": "CNTT2021",
+    "required_location": "B"
+  },
+  {
+    "id": "C005",
+    "name": "Phát triển ứng dụng web",
+    "student_class": "CNTT2022",
+    "required_location": "B"
+  },
+  {
+    "id": "C006",
+    "name": "Phát triển ứng dụng web",
+    "student_class": "CNTT2023",
+    "required_location": "B"
+  },
+  {
+    "id": "C007",
+    "name": "An ninh thông tin",
+    "student_class": "CNTT2021",
+    "required_location": "B"
+  },
+  {
+    "id": "C008",
+    "name": "An ninh thông tin",
+    "student_class": "CNTT2022",
+    "required_location": "B"
+  },
+  {
+    "id": "C009",
+    "name": "Cơ sở dữ liệu",
+    "student_class": "CNTT2021",
+    "required_location": "B"
+  },
+  {
+    "id": "C010",
+    "name": "Cơ sở dữ liệu",
+    "student_class": "CNTT2022",
+    "required_location": "B"
+  },
+  {
+    "id": "C011",
+    "name": "Cơ sở dữ liệu",
+    "student_class": "CNTT2023",
+    "required_location": "B"
+  },
+  {
+    "id": "C012",
+    "name": "Hệ thống thông tin quản lý",
+    "student_class": "CNTT2021",
+    "required_location": "B"
+  },
+  {
+    "id": "C013",
+    "name": "Hệ thống thông tin quản lý",
+    "student_class": "CNTT2022",
+    "required_location": "B"
+  },
+  {
+    "id": "C014",
+    "name": "Thể dục",
+    "student_class": "CNTT2021",
+    "required_location": "N"
+  },
+  {
+    "id": "C015",
+    "name": "Thể dục",
+    "student_class": "CNTT2022",
+    "required_location": "N"
+  },
+  {
+    "id": "C016",
+    "name": "Thể dục",
+    "student_class": "CNTT2023",
+    "required_location": "N"
+  },
+  {
+    "id": "C017",
+    "name": "Tiếng Anh",
+    "student_class": "CNTT2021",
+    "required_location": "A|B"
+  },
+  {
+    "id": "C018",
+    "name": "Tiếng Anh",
+    "student_class": "CNTT2022",
+    "required_location": "A|B"
+  },
+  {
+    "id": "C019",
+    "name": "Tiếng Anh",
+    "student_class": "CNTT2023",
+    "required_location": "A|B"
+  }
+]

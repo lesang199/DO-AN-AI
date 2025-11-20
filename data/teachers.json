@@ -1,0 +1,52 @@
+[
+  {
+    "id": "T001",
+    "name": "Nguyễn Văn A",
+    "courses": ["Trí tuệ nhân tạo", "Cơ sở dữ liệu"]
+  },
+  {
+    "id": "T002",
+    "name": "Trần Thị B",
+    "courses": ["Phát triển ứng dụng web", "Hệ thống thông tin quản lý"]
+  },
+  {
+    "id": "T003",
+    "name": "Lê Văn C",
+    "courses": ["An ninh thông tin", "Trí tuệ nhân tạo"]
+  },
+  {
+    "id": "T004",
+    "name": "Phạm Thị D",
+    "courses": ["Cơ sở dữ liệu", "Phát triển ứng dụng web"]
+  },
+  {
+    "id": "T005",
+    "name": "Hoàng Văn E",
+    "courses": ["Hệ thống thông tin quản lý", "An ninh thông tin"]
+  },
+  {
+    "id": "T006",
+    "name": "Vũ Thị F",
+    "courses": ["Thể dục"]
+  },
+  {
+    "id": "T007",
+    "name": "Đặng Văn G",
+    "courses": ["Tiếng Anh"]
+  },
+  {
+    "id": "T008",
+    "name": "Bùi Văn H",
+    "courses": ["Trí tuệ nhân tạo", "An ninh thông tin", "Cơ sở dữ liệu"]
+  },
+  {
+    "id": "T009",
+    "name": "Lý Thị I",
+    "courses": ["Phát triển ứng dụng web", "Tiếng Anh"]
+  },
+  {
+    "id": "T010",
+    "name": "Đỗ Văn K",
+    "courses": ["Hệ thống thông tin quản lý", "Cơ sở dữ liệu"]
+  }
+]

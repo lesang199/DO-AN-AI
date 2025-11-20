@@ -1,0 +1,74 @@
+[
+  {
+    "id": "R001",
+    "name": "Phòng A1.101 - Cơ sở A",
+    "capacity": 50,
+    "location": "A"
+  },
+  {
+    "id": "R002",
+    "name": "Phòng A1.102 - Cơ sở A",
+    "capacity": 50,
+    "location": "A"
+  },
+  {
+    "id": "R003",
+    "name": "Phòng A1.103 - Cơ sở A",
+    "capacity": 50,
+    "location": "A"
+  },
+  {
+    "id": "R004",
+    "name": "Phòng B2.201 - Cơ sở B",
+    "capacity": 60,
+    "location": "B"
+  },
+  {
+    "id": "R005",
+    "name": "Phòng B2.202 - Cơ sở B",
+    "capacity": 60,
+    "location": "B"
+  },
+  {
+    "id": "R006",
+    "name": "Phòng B2.203 - Cơ sở B",
+    "capacity": 60,
+    "location": "B"
+  },
+  {
+    "id": "R007",
+    "name": "Phòng B2.301 - Cơ sở B",
+    "capacity": 70,
+    "location": "B"
+  },
+  {
+    "id": "R008",
+    "name": "Phòng B2.302 - Cơ sở B",
+    "capacity": 70,
+    "location": "B"
+  },
+  {
+    "id": "R009",
+    "name": "Phòng B2.303 - Cơ sở B",
+    "capacity": 70,
+    "location": "B"
+  },
+  {
+    "id": "R010",
+    "name": "Phòng B2.401 - Cơ sở B",
+    "capacity": 80,
+    "location": "B"
+  },
+  {
+    "id": "R011",
+    "name": "Sân thể dục 1 - Cơ sở N",
+    "capacity": 100,
+    "location": "N"
+  },
+  {
+    "id": "R012",
+    "name": "Sân thể dục 2 - Cơ sở N",
+    "capacity": 100,
+    "location": "N"
+  }
+]

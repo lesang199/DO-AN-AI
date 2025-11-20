@@ -1,0 +1,86 @@
+[
+  {
+    "id": "TS001",
+    "day": "Thứ 2",
+    "session": "Sáng",
+    "period": 1,
+    "time": "07:00 - 11:30"
+  },
+  {
+    "id": "TS002",
+    "day": "Thứ 2",
+    "session": "Chiều",
+    "period": 1,
+    "time": "13:00 - 17:30"
+  },
+  {
+    "id": "TS003",
+    "day": "Thứ 3",
+    "session": "Sáng",
+    "period": 1,
+    "time": "07:00 - 11:30"
+  },
+  {
+    "id": "TS004",
+    "day": "Thứ 3",
+    "session": "Chiều",
+    "period": 1,
+    "time": "13:00 - 17:30"
+  },
+  {
+    "id": "TS005",
+    "day": "Thứ 4",
+    "session": "Sáng",
+    "period": 1,
+    "time": "07:00 - 11:30"
+  },
+  {
+    "id": "TS006",
+    "day": "Thứ 4",
+    "session": "Chiều",
+    "period": 1,
+    "time": "13:00 - 17:30"
+  },
+  {
+    "id": "TS007",
+    "day": "Thứ 5",
+    "session": "Sáng",
+    "period": 1,
+    "time": "07:00 - 11:30"
+  },
+  {
+    "id": "TS008",
+    "day": "Thứ 5",
+    "session": "Chiều",
+    "period": 1,
+    "time": "13:00 - 17:30"
+  },
+  {
+    "id": "TS009",
+    "day": "Thứ 6",
+    "session": "Sáng",
+    "period": 1,
+    "time": "07:00 - 11:30"
+  },
+  {
+    "id": "TS010",
+    "day": "Thứ 6",
+    "session": "Chiều",
+    "period": 1,
+    "time": "13:00 - 17:30"
+  },
+  {
+    "id": "TS011",
+    "day": "Thứ 7",
+    "session": "Sáng",
+    "period": 1,
+    "time": "07:00 - 11:30"
+  },
+  {
+    "id": "TS012",
+    "day": "Thứ 7",
+    "session": "Chiều",
+    "period": 1,
+    "time": "13:00 - 17:30"
+  }
+]
