@@ -161,9 +161,15 @@ class BacktrackingSolver:
         return options
 
     def _get_available_rooms(self, course: Course) -> List[str]:
+        """
+        Lấy danh sách phòng phù hợp với ràng buộc địa điểm của môn học
         
-      
-        
+        Args:
+            course: Môn học cần kiểm tra
+            
+        Returns:
+            Danh sách ID phòng phù hợp
+        """
         available_rooms = []
         required_location = course.required_location
         
@@ -175,11 +181,43 @@ class BacktrackingSolver:
         return available_rooms
 
     def _is_room_location_valid(self, room_location: str, required_location: str) -> bool:
-       
+        """
+        Kiểm tra xem vị trí phòng có phù hợp với yêu cầu của môn học không
+        
+        Args:
+            room_location: Vị trí phòng ("A", "B", hoặc "N")
+            required_location: Yêu cầu vị trí của môn ("A", "B", "N", hoặc "A|B")
+            
+        Returns:
+            True nếu phù hợp, False nếu không
+        """
         if "|" in required_location:
+            # Môn có thể học ở nhiều cơ sở
             allowed_locations = required_location.split("|")
             return room_location in allowed_locations
         else:
+            # Môn chỉ học ở một cơ sở
             return room_location == required_location
+
+    def _calculate_course_difficulty(self, course_id: str) -> int:
+        """
+        Tính độ khó của môn học (số lựa chọn càng ít thì càng khó)
+        Môn khó hơn sẽ được gán trước để phát hiện xung đột sớm
         
+        Args:
+            course_id: ID môn học
+            
+        Returns:
+            Điểm độ khó (số càng nhỏ càng khó)
+        """
+        course = self.courses[course_id]
+        num_teachers = len(self.course_to_teachers.get(course.name, []))
+        num_rooms = len(self._get_available_rooms(course))
+        num_timeslots = len(self.timeslots)
         
+        # Tổng số lựa chọn
+        total_options = num_teachers * num_rooms * num_timeslots
+        
+        # Trả về số âm để sắp xếp giảm dần (môn khó trước)
+        return -total_options
+

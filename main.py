@@ -10,7 +10,7 @@ from core.evaluator import ScheduleEvaluator
 from core.constraint import ConstraintChecker
 from utils.printer import SchedulePrinter
 
-
+1
 def print_header(title: str):
     """In header với format đẹp"""
     print("\n" + "=" * 100)
