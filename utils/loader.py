@@ -1,15 +1,13 @@
-"""
-Module tải dữ liệu từ các file JSON
-"""
+
 
 import json
 import os
-from typing import Dict
+from typing import Dict, List
 from core.model import Teacher, Room, Course, Timeslot
 
 
 def load_teachers(data_dir: str = "data") -> Dict[str, Teacher]:
-    """Tải danh sách giáo viên từ JSON"""
+   
     file_path = os.path.join(data_dir, "teachers.json")
     with open(file_path, 'r', encoding='utf-8') as f:
         data = json.load(f)

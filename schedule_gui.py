@@ -18,7 +18,7 @@ try:
     from core.backtracking import BacktrackingSolver
     from core.gwo import GWOSolver
     from core.evaluator import ScheduleEvaluator
-    from core.constraints import ConstraintChecker
+    from core.constraint import ConstraintChecker
     # THÊM DÒNG NÀY:
     from utils.printer import SchedulePrinter 
 except ImportError as e:

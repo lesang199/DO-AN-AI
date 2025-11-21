@@ -1,52 +1,52 @@
-[
+  [
   {
     "id": "T001",
-    "name": "Nguyễn Văn A",
-    "courses": ["Trí tuệ nhân tạo", "Cơ sở dữ liệu"]
+    "name": "Đặng Ngọc Hoàng Thành",
+    "courses": ["Trí tuệ nhân tạo", "Cấu trúc dữ liệu và giải thuật", "Phát triển ứng dụng Mobile"]
   },
   {
     "id": "T002",
-    "name": "Trần Thị B",
-    "courses": ["Phát triển ứng dụng web", "Hệ thống thông tin quản lý"]
+    "name": "Hồ Thị Thanh Tuyến",
+    "courses": ["Phát triển ứng dụng web", "Hệ thống thông tin quản lý","Phân tích thiết kế hệ thống"]
   },
   {
     "id": "T003",
-    "name": "Lê Văn C",
-    "courses": ["An ninh thông tin", "Trí tuệ nhân tạo"]
+    "name": "Nguyễn Quốc Hùng",
+    "courses": ["An ninh thông tin","Quản lý dự án công nghệ thông tin"]
   },
   {
     "id": "T004",
-    "name": "Phạm Thị D",
+    "name": "Bùi Xuân Huy",
     "courses": ["Cơ sở dữ liệu", "Phát triển ứng dụng web"]
   },
   {
     "id": "T005",
-    "name": "Hoàng Văn E",
+    "name": "Phan Hiền",
     "courses": ["Hệ thống thông tin quản lý", "An ninh thông tin"]
   },
   {
     "id": "T006",
-    "name": "Vũ Thị F",
+    "name": "Lê Đào ÁI Quốc",
     "courses": ["Thể dục"]
   },
   {
     "id": "T007",
-    "name": "Đặng Văn G",
+    "name": "Phan Thị Vân Thanh",
     "courses": ["Tiếng Anh"]
   },
   {
     "id": "T008",
-    "name": "Bùi Văn H",
-    "courses": ["Trí tuệ nhân tạo", "An ninh thông tin", "Cơ sở dữ liệu"]
+    "name": "Bùi Thanh Hiếu",
+    "courses": ["Cơ sở dữ liệu"]
   },
   {
     "id": "T009",
-    "name": "Lý Thị I",
-    "courses": ["Phát triển ứng dụng web", "Tiếng Anh"]
+    "name": "Nguyễn Phú Quỳnh Như",
+    "courses": ["Tiếng Anh"]
   },
   {
     "id": "T010",
-    "name": "Đỗ Văn K",
-    "courses": ["Hệ thống thông tin quản lý", "Cơ sở dữ liệu"]
+    "name": "Hồ Văn Phúng",
+    "courses": ["Hệ thống thông tin quản lý"]
   }
 ]

@@ -82,6 +82,36 @@ class SchedulePrinter:
         
         print("\n")
 
+    def get_schedule_data_for_gui(self, schedule: Schedule) -> List[Dict[str, str]]:
+        """Chuẩn hóa dữ liệu lịch để dễ hiển thị trên GUI"""
+        if not schedule.assignments:
+            return []
+
+        data = []
+        sorted_assignments = sorted(schedule.assignments,
+                                    key=lambda a: self._get_timeslot_order(a.timeslot_id))
+
+        for assignment in sorted_assignments:
+            course = self.courses.get(assignment.course_id)
+            teacher = self.teachers.get(assignment.teacher_id)
+            room = self.rooms.get(assignment.room_id)
+            timeslot = self.timeslots.get(assignment.timeslot_id)
+
+            if not all([course, teacher, room, timeslot]):
+                continue
+
+            session = timeslot.session if timeslot.session else f"Tiết {timeslot.period}"
+            data.append({
+                "Môn Học": course.name,
+                "Giáo Viên": teacher.name,
+                "Phòng": room.name,
+                "Thời Gian": f"{timeslot.day}, {session} ({timeslot.time})",
+                "Thứ": timeslot.day,
+                "Lớp": course.student_class,
+            })
+
+        return data
+
     def _get_timeslot_order(self, timeslot_id: str) -> int:
         """Lấy thứ tự của timeslot để sắp xếp"""
         timeslot = self.timeslots.get(timeslot_id)
@@ -93,6 +123,11 @@ class SchedulePrinter:
         # Sắp xếp: sáng trước, chiều sau
         session_order = 0 if timeslot.session == "Sáng" else 1 if timeslot.session == "Chiều" else timeslot.period
         return day_index * 100 + session_order * 10 + timeslot.period
+
+    @staticmethod
+    def _get_day_number(day: str) -> int:
+        day_order = {"Thứ 2": 0, "Thứ 3": 1, "Thứ 4": 2, "Thứ 5": 3, "Thứ 6": 4, "Thứ 7": 5, "Chủ nhật": 6}
+        return day_order.get(day, 99)
 
     def print_statistics(self, schedule: Schedule):
         """In thống kê về lịch học"""
@@ -125,4 +160,5 @@ class SchedulePrinter:
         print(f"  Số giáo viên sử dụng: {len(used_teachers)}")
         print(f"  Số khung giờ sử dụng: {len(used_timeslots)}")
         print("=" * 100 + "\n")
+
 
